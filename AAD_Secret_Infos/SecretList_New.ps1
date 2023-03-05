@@ -1,7 +1,4 @@
 ﻿
-# https://blog.icewolf.ch/archive/2022/01/28/powershell-script-to-check-for-aad-apps-with-expiring-clientsecrets.aspx
-
-
 connect-azuread
 
 #Get Azure AD Apps
