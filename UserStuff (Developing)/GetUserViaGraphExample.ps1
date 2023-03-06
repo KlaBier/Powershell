@@ -7,4 +7,4 @@ Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(Displ
 Get-MgUser -ConsistencyLevel eventual -Count userCount
 
 
-Get-MgUser -UserId "AdeleV@kbcorp2021.onmicrosoft.com"| select *
+Get-MgUser -UserId "AdeleV@kbcorp2021.onmicrosoft.com"| Select-Object *
