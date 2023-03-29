@@ -1,3 +1,5 @@
+# Please find the script below not as a single script which can run entirely
+# it is rather a set of individual cmdlets that serve as an example
 
 # Additional infos are given here
 # https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.users/get-mguser?source=recommendations&view=graph-powershell-1.0
