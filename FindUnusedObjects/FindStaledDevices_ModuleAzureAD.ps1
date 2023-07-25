@@ -2,6 +2,9 @@
 # Die Beispiele unten zeigen wie sich anhand der "ApproximateLastLogonTimestamp"
 # ermitteln lässt, wann ein Gerät im AAD zuletzt verwendet wurde, also wann es zuletzt zum Zugriff
 # auf die MS Cloud benutzt worden ist
+# 
+# Das SCript ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
+# Entwicklungen dienen sollen.
 #
 # HINWEIS:
 # Das Cmdlet "Get-AzureADDevice" ist aus dem Powershell Module "AzureAD"
@@ -22,7 +25,7 @@
 # Connnect to tenant
 Connect-AzureAD
 
-# Zeige alle Geräte 
+# Liste alle Geräte 
 Get-AzureADDevice -All:$true `
     | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, ApproximateLastLogonTimestamp `
     | Format-Table 
