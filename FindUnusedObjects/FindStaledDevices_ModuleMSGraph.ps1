@@ -2,8 +2,11 @@
 # Die Beispiele unten zeigen wie sich anhand der "ApproximateLastSignInDateTime"
 # ermitteln lässt, wann ein Gerät im AAD zuletzt verwendet wurde, also wann es zuletzt zum Zugriff
 # auf die MS Cloud benutzt worden ist
+# 
+# Das SCript ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
+# Entwicklungen dienen sollen.
 #
-# Es ist sinnvoll nur noch Cmdlets aus dem Microsoft Graph Modul zu benutzen und nicht mehr "AzureAD"
+# Es ist sinnvoll nur noch Cmdlets aus dem Microsoft Graph Modul zu benutzen und nicht mehr aus "AzureAD"
 # Für eine Migration der Cmdlets aus dem AzureAD- oder dem MSOnline Modul empfiehlt sich folgender Link
 # https://learn.microsoft.com/en-us/powershell/microsoftgraph/azuread-msoline-cmdlet-map?view=graph-powershell-1.0
 #
@@ -15,7 +18,7 @@
 # Login/Connect
 Connect-MgGraph -Scopes 'Device.Read.All'
 
-# Zeige alle Geräte 
+# Liste alle Geräte 
 Get-MgDevice -All:$true
 
 # Nur bestimmte Eigenschaften

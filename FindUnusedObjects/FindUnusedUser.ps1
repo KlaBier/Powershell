@@ -1,99 +1,47 @@
-# Please find the script below not as a single script which can run entirely
-# it is rather a set of individual cmdlets that serve as an example
-
+# Einige Beispiele wie sich über die Microsoft Graph Benutzerinformationen auslesen lassen
+# Das ganze hier mit dem Fokus länger nicht benutzte Konten zu identifizieren
+# 
+# Das SCript ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
+# Entwicklungen dienen sollen.
+#
+#
 # Additional infos are given here
 # https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.users/get-mguser?source=recommendations&view=graph-powershell-1.0
 
 
 # Install Excel Powershell Module from Doug Finke 
-#Install-Module ImportExcel
+Install-Module -name ImportExcel
+Install-Module -name microsoft.graph
 
-# Login/Connect
+# Login/Connect to MS Graph
 Connect-MgGraph -Scopes 'User.Read.All', "Auditlog.Read.All"
 
-# Get list with all users, some properties
+# Liste aller Benutzer mit einigen Eigenschaften
 Get-MgUser -All | Format-Table  ID, DisplayName, Mail, UserPrincipalName
 
-# Find specific user or range
-Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(DisplayName, 'B')" 
+# Liste mit Filterkriterien
+Get-MgUser -ConsistencyLevel eventual -Filter "startsWith(DisplayName, 'B')" 
 
-# Search doing the same another way
-Get-MgUser -ConsistencyLevel eventual -Count userCount -Search '"DisplayName:Ad"'
+# Ebenfalls gefiltert
+Get-MgUser -ConsistencyLevel eventual -Search '"DisplayName:Ad"'
 
 # The good old SQL days... order by :-)
 Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(DisplayName, 'A')" -OrderBy UserPrincipalName
 
-# Accessing signinactivity requires beta profile
-Select-MgProfile beta
+# Liste der Benutzer mit Anmeldung vor einem spezifischem Anmeldedatum
+Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2022-04-25T00:00:00Z"
 
-Get-MgUser -All -Property $props | Select-Object $props | Format-Table
+# Bestimmte Eigenschaften einschließlich des Datums der letzten Anmeldung
+Get-MgUser -All -Property UserprincipalName, Displayname, CreatedDateTime, SignInActivity `
+    | Select-Object DisplayName, UserPrincipalName, @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}, CreatedDateTime 
 
-# Get list with all users
-Get-MgUser -All | Format-Table  ID, DisplayName, Mail, UserPrincipalName
-
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2022-12-30"
-
-Get-MgUser -All -Property UserprincipalName,Displayname,CreatedDateTime, SignInActivity | select DisplayName, CreatedDateTime, UserPrincipalName, @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}} 
-
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2021-12-30" `
+# ... und das ganze selektiert vor einem Zeitpunkt
+Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2023-04-30T00:00:00Z" `
     -Property UserprincipalName,Displayname,CreatedDateTime, SignInActivity `
-    | select DisplayName, `
-             CreatedDateTime,`
-             UserPrincipalName,`
-             @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}`
-    | Export-Excel .\UnusedUser.xlsx -TableName Userlist -AutoSize
+    | Select-Object DisplayName, 
+             UserPrincipalName,
+             CreatedDateTime,
+             @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}} `
+    | Export-Excel .\UnusedUser.xlsx -WorksheetName "UserList" -AutoSize
 
-# Graph Statements doing the same
-# https://graph.microsoft.com/beta/users?$select=displayName,userPrincipalName,signInActivity&$filter=signInActivity/lastSignInDateTime le 2023-02-01T00:00:00Z
-# https://graph.microsoft.com/beta/users?$select=displayName,signInActivity
-
-Install-Module -name microsoft.graph
-
-#Install-Module ImportExcel
-
-# Login/Connect
-Connect-MgGraph -Scopes 'User.Read.All', "Auditlog.Read.All"
-
-# Get list with all users
-Get-MgUser -All | Format-Table  ID, DisplayName, Mail, UserPrincipalName
-
-# Find specific user 
-Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(DisplayName, 'B')" 
-
-Get-MgUser -ConsistencyLevel eventual -Count userCount -Search '"DisplayName:Ad"'
-
-# The good SQL days... order by :-)
-Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(DisplayName, 'A')" -OrderBy UserPrincipalName
-
-#https://graph.microsoft.com/beta/users?$select=displayName,userPrincipalName,signInActivity&$filter=signInActivity/lastSignInDateTime le 2023-02-01T00:00:00Z
-
-
-#https://graph.microsoft.com/beta/users?$select=displayName,signInActivity
-
-
-Select-MgProfile beta
-
-$props = @( 
-     # Basic metadata
-    'Id','DisplayName','Mail','UserPrincipalName','Department','JobTitle'     
-    # Account Status    
-    'AccountEnabled',     
-    # Password last set     
-    'LastPasswordChangeDateTime',     
-    # Last logon     
-    'SignInActivity'     
-)
-
-Get-MgUser -All -Property $props | Select-Object $props | Format-Table *
-
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2023-06-30T00:00:00Z"
-
-Get-MgUser -All -Property UserprincipalName,Displayname,CreatedDateTime, SignInActivity | select DisplayName, CreatedDateTime, UserPrincipalName, @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}} 
-
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2023-07-16T00:00:00Z" `
-    -Property UserprincipalName,Displayname,CreatedDateTime, SignInActivity `
-    | select DisplayName, `
-             @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}, 
-             CreatedDateTime,`
-             UserPrincipalName
-             
+Disconnect-Graph                     
