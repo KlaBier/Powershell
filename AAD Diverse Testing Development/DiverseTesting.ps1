@@ -55,7 +55,7 @@ Connect-AzureAD
 
 Get-AzureADAuditSignInLogs -Filter "startsWith(userPrincipalName,'Klaus')"
 
-
+get-msosrole
 
 
 connect-azuread
@@ -81,3 +81,28 @@ Get-AzureADAuditSignInLogs -Filter "contains(UserDisplayname, 'k')" | select Cre
 Get-AzureADAuditSignInLogs -Filter "contains(UserDisplayname, 'k')" | select CreatedDateTime, UserDisplayName, UserPrincipalName, {$_.DeviceDetail.DeviceID}, ClientAppUsed, AppDisplayName | FT
 
 
+# Retrieve the Template Role object for the Guest Inviter role 
+$InviterRole = Get-AzureADDirectoryRoleTemplate | Where-Object {$_.DisplayName -eq "User Administrator"}
+
+# Inspect the $Inviter variable to make sure we found the correct template role
+$InviterRole
+
+ObjectId                             DisplayName   Description
+--------                             -----------   -----------
+95e79109-95c0-4d8e-aee3-d01accf2d47b Guest Inviter Guest Inviter has access to invite guest users.
+
+# Enable the Inviter Role
+Enable-AzureADDirectoryRole -RoleTemplateId $InviterRole.ObjectId
+
+Get-AzureADDirectoryRole -ObjectId $InviterRole.ObjectId
+
+
+Add-AzureADDirectoryRoleMember -ObjectId $InviterRole.ObjectId -RefObjectId c13dd34a-492b-4561-b171-40fcce2916c5
+
+
+Get-AzureADExtensionProperty -IsSyncedFromOnPremises $False
+
+Get-AzureADExtensionProperty -IsSyncedFromOnPremises $True
+
+$User = Get-AzureADUser -Top 1
+Set-AzureADUserExtension -ObjectId $User.ObjectId -ExtensionName extension_e5e29b8a85d941eab8d12162bd004528_extensionAttribute8 -ExtensionValue "New Value"
