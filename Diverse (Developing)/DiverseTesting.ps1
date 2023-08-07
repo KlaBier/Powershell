@@ -106,3 +106,36 @@ Get-AzureADExtensionProperty -IsSyncedFromOnPremises $True
 
 $User = Get-AzureADUser -Top 1
 Set-AzureADUserExtension -ObjectId $User.ObjectId -ExtensionName extension_e5e29b8a85d941eab8d12162bd004528_extensionAttribute8 -ExtensionValue "New Value"
+
+
+# Connect to Microsoft Graph with least required permission scope
+Connect-MgGraph -Scopes Application.Read.All, AppRoleAssignment.ReadWrite.All
+
+### Define these variables here first ##
+$ManagedIdentityName = "NewKBCORPAutomation"
+$permissions = "Device.Read.All"
+
+# Get service principal and roles
+$getPerms = (Get-MgServicePrincipal -Filter "AppId eq '00000003-0000-0000-c000-000000000000'").approles | Where {$_.Value -in $permissions}
+$ManagedIdentity = (Get-MgServicePrincipal -Filter "DisplayName eq '$ManagedIdentityName'")
+$GraphID = (Get-MgServicePrincipal -Filter "AppId eq '00000003-0000-0000-c000-000000000000'").id
+
+# Assign roles
+foreach ($perm in $getPerms){
+    $perm
+    New-MgServicePrincipalAppRoleAssignment -ServicePrincipalId $ManagedIdentity.Id `
+    -PrincipalId $ManagedIdentity.Id -ResourceId $GraphID -AppRoleId $perm.id
+}
+
+Disconnect-Graph
+
+# Certificate using
+$certname = "{Autotest}"    ## Replace {certificateName}
+$cert = New-SelfSignedCertificate -Subject "CN=$certname" -CertStoreLocation "Cert:\CurrentUser\My" -KeyExportPolicy Exportable -KeySpec Signature -KeyLength 2048 -KeyAlgorithm RSA -HashAlgorithm SHA256
+
+Export-Certificate -Cert $cert -FilePath ".\$certname.cer"
+
+$mypwd = ConvertTo-SecureString -String "start" -Force -AsPlainText  ## Replace {myPassword}
+
+Export-PfxCertificate -Cert $cert -FilePath ".\$certname.pfx" -Password $mypwd   ## Specify your preferred location
+
