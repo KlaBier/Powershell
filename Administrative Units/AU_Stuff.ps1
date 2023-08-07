@@ -7,12 +7,13 @@ Import-Module Microsoft.Graph.Identity.DirectoryManagement
 
 $params = @{
 	displayName = "Praktikanten3"
-	description = "Enthält alle benutzerkonten der Praktikanten"
+	description = "Enthält alle Benutzerkonten der Praktikanten"
 	visibility = "HiddenMembership"
 }
 
 Connect-MgGraph -scopes "AdministrativeUnit.ReadWrite.All"
 
-Disconnect-Graph
 
 New-MgDirectoryAdministrativeUnit -BodyParameter $params
+
+Disconnect-Graph

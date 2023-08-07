@@ -28,20 +28,23 @@ Get-MgUser -ConsistencyLevel eventual -Search '"DisplayName:Ad"'
 # The good old SQL days... order by :-)
 Get-MgUser -ConsistencyLevel eventual -Count userCount -Filter "startsWith(DisplayName, 'A')" -OrderBy UserPrincipalName
 
-# Liste der Benutzer mit Anmeldung vor einem spezifischem Anmeldedatum
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2022-04-25T00:00:00Z"
-
 # Bestimmte Eigenschaften einschließlich des Datums der letzten Anmeldung
 Get-MgUser -All -Property UserprincipalName, Displayname, CreatedDateTime, SignInActivity `
     | Select-Object DisplayName, UserPrincipalName, @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}, CreatedDateTime 
 
+# Liste der Benutzer mit Anmeldung vor einem spezifischem Anmeldedatum
+Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2023-04-30T00:00:00Z"
+
+# Liste aller Geräte die länger als 90 Tage (Variable) nicht benutzt wurden
+$date = (Get-Date (Get-Date).AddDays(-90) -Format u).Replace(' ','T')
+
 # ... und das ganze selektiert vor einem Zeitpunkt
-Get-MgUser -Filter "signInActivity/lastSignInDateTime le 2023-04-30T00:00:00Z" `
+Get-MgUser -Filter "signInActivity/lastSignInDateTime le $date" `
     -Property UserprincipalName,Displayname,CreatedDateTime, SignInActivity `
     | Select-Object DisplayName, 
-             UserPrincipalName,
-             CreatedDateTime,
-             @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}} `
-    | Export-Excel .\UnusedUser.xlsx -WorksheetName "UserList" -AutoSize
+            @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}, `
+            UserPrincipalName,
+            CreatedDateTime `
+    | Export-Excel .\UnusedUser.xlsx -WorksheetName "UserList"
 
-Disconnect-Graph                     
+Disconnect-Graph
