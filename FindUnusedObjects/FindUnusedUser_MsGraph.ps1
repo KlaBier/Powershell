@@ -1,7 +1,7 @@
 # Einige Beispiele wie sich über die Microsoft Graph Benutzerinformationen auslesen lassen
 # Das ganze hier mit dem Fokus länger nicht benutzte Konten zu identifizieren
 # 
-# Das SCript ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
+# Das Script ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
 # Entwicklungen dienen sollen.
 #
 #
@@ -9,7 +9,7 @@
 # https://learn.microsoft.com/en-us/powershell/module/microsoft.graph.users/get-mguser?source=recommendations&view=graph-powershell-1.0
 
 
-# Install Excel Powershell Module from Doug Finke 
+# Installiere Powershell Module (Admin Rechte erforderlich) 
 Install-Module -name ImportExcel
 Install-Module -name microsoft.graph
 
@@ -22,7 +22,7 @@ Get-MgUser -All | Format-Table  ID, DisplayName, Mail, UserPrincipalName
 # Liste mit Filterkriterien
 Get-MgUser -ConsistencyLevel eventual -Filter "startsWith(DisplayName, 'B')" 
 
-# Ebenfalls gefiltert
+# Ebenfalls gefiltert, nur andere Syntax
 Get-MgUser -ConsistencyLevel eventual -Search '"DisplayName:Ad"'
 
 # The good old SQL days... order by :-)
@@ -45,6 +45,6 @@ Get-MgUser -Filter "signInActivity/lastSignInDateTime le $date" `
             @{N="Last SignIn";E={$_.SignInActivity.LastSignInDateTime}}, `
             UserPrincipalName,
             CreatedDateTime `
-    | Export-Excel .\UnusedUser.xlsx -WorksheetName "UserList"
+    | Export-Excel .\UnusedUser.xlsx -WorksheetName "UserList" -AutoSize
 
 Disconnect-Graph

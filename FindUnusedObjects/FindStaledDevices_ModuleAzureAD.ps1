@@ -3,7 +3,7 @@
 # ermitteln lässt, wann ein Gerät im AAD zuletzt verwendet wurde, also wann es zuletzt zum Zugriff
 # auf die MS Cloud benutzt worden ist
 # 
-# Das SCript ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
+# Das Script ist nicht als Ganzes lauffähig. Das sind Beispiele, die als Anregung für eigene 
 # Entwicklungen dienen sollen.
 #
 # HINWEIS:
@@ -43,7 +43,7 @@ Get-AzureADDevice -All:$true `
     | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, ApproximateLastLogonTimestamp `
     | Export-Excel .\UnusedDevices.xlsx -WorksheetName "Devices" -AutoSize
 
-# Erstelle eine Liste mit Geräten die in den letzte 90 tagen nicht benutzt worden sind
+# Erstelle eine Liste mit Geräten die in den letzte 90 Tagen nicht benutzt wurden
 # und schreibe die Ausgabe direkt in eine Excel Tabelle
 $LastUsed = (Get-Date).AddDays(-90)
 
