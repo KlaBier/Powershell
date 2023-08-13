@@ -15,7 +15,7 @@
 # Microsoft Graph "ApproximateLastSignInDateTime" und nicht mehr ApproximateLastLogonTimestamp
 ###############################################################################################
 
-# Install Excel Powershell Module from Doug Finke 
+# Install Powershell Modul, wenn noch nicht geschehen (Aadmin Rechte erforderlich) 
 Install-Module -name microsoft.graph
 
 # Login/Connect
@@ -26,29 +26,29 @@ Get-MgDevice -All:$true
 
 # Nur bestimmte Eigenschaften
 Get-MgDevice -All:$true `
-    | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, ApproximateLastSignInDateTime `
+    | select-object -Property DisplayName, ApproximateLastSignInDateTime, DeviceId, DeviceOSType, DeviceOSVersion `
     | Format-Table 
 
 # ... gleiche Liste, aber Ausgabe in eine CSV
 Get-MgDevice -All:$true `
-    | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, ApproximateLastSignInDateTime `
+    | select-object -Property DisplayName, ApproximateLastSignInDateTime, DeviceId, DeviceOSType, DeviceOSVersion `
     | export-csv .\UnusedDevices.csv -NoTypeInformation
 
-# ... gleiche Liste, aber Ausgabe diesmal direkt in eine Excel Tabelle mit den Excel Powershell Module von Doug Finke
+# ... gleiche Liste, aber Ausgabe diesmal direkt in eine Excel Tabelle mit dem Excel Powershell Module von Doug Finke
 Install-Module -Name ImportExcel
 
 Get-MgDevice -All:$true `
     | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, ApproximateLastSignInDateTime `
     | Export-Excel .\UnusedDevices.xlsx -WorksheetName "Devices" -AutoSize
 
-# Erstelle eine Liste mit Geräten die in den letzte 90 Tagen nicht benutzt worden sind
-# und schreibe die Ausgabe direkt in eine Excel Tabelle
+# Erstelle eine Liste mit Geräten die in den letzte 90 Tagen nicht benutzt wurden
 $LastUsed = (Get-Date).AddDays(-90)
 
 Get-MgDevice -All:$true | Where-Object {$_.ApproximateLastSignInDateTime -le $LastUsed} `
     | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, DeviceTrustType, ApproximateLastSignInDateTime `
     | Format-Table 
 
+# ... diesmal das Ganze in ein Excelfile
 Get-MgDevice -All:$true | Where-Object {$_.ApproximateLastSignInDateTime -le $LastUsed} `
     | select-object -Property DisplayName, DeviceId, DeviceOSType, DeviceOSVersion, DeviceTrustType, ApproximateLastSignInDateTime `
     | Export-Excel .\UnusedDevices.xlsx -WorksheetName "Devices" -AutoSize
