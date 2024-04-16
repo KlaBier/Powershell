@@ -22,3 +22,5 @@ Get-MgUserAppRoleAssignment -UserId 93e77d38-5344-4481-8dd9-4cb19a23bca0
 
 Get-GraphAppRoleAssignment -UserId 93e77d38-5344-4481-8dd9-4cb19a23bca0
 
+
+
