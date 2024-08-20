@@ -35,8 +35,7 @@
             value = 'ManagerID'
         }
     }
-    "urn:ietf:params:scim:schemas:extension:scr:2.0:User" = @{	
-	    HireDate = 'HireDate'
-        usagelocation = "CountryCode"
-        }
+    "urn:ietf:params:scim:schemas:extension:csv:2.0:User" = @{	
+        HireDate = 'HireDate'
+    }
 }

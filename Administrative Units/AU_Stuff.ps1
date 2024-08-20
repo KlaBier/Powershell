@@ -10,7 +10,7 @@ $params = @{
 	visibility = "HiddenMembership"
 }
 
-Connect-MgGraph -scopes "AdministrativeUnit.ReadWrite.All"
+Connect-MgGraph -scopes "AdministrativeUnit.ReadWrite.All" -verbose
 
 New-MgDirectoryAdministrativeUnit -BodyParameter $params
 

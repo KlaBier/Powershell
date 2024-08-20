@@ -9,7 +9,7 @@
     displayName  = 'FullName'
     nickName     = 'UserID'
     userType     = 'WorkerType'
-    title        = 'Custom01'
+    title        = 'JobTitle'
     addresses    = @(
         @{
             type          = { 'work' }
@@ -34,5 +34,8 @@
         manager        = @{
             value = 'ManagerID'
         }
-     }
+    }
+    "urn:ietf:params:scim:schemas:extension:csv:2.0:User" = @{	
+        HireDate = 'HireDate'
+    }
 }
