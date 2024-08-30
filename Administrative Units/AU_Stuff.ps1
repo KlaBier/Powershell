@@ -15,3 +15,6 @@ Connect-MgGraph -scopes "AdministrativeUnit.ReadWrite.All" -verbose
 New-MgDirectoryAdministrativeUnit -BodyParameter $params
 
 Disconnect-Graph
+
+Install-Module Microsoft365DSC -Force
+

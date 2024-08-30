@@ -1,0 +1,11 @@
+WorkerID,WorkerStatus,WorkerType,UserID,FirstName,LastName,FullName,GenderPronoun,ManagerID,HireDate,LeaverDate,Department,CostCenter,Location,JobTitle,StreetAddress,City,CountryCode,OfficePhone,Custom01,Custom02,ZipCode
+1586,Active,Intern,EMP1586,Maridel,Carlson,Maridel Carlson,SHE/HER,1196,2020-02-08,,Sales,CC3035,North America,Director,404 Legacy Dr,Frankfurt,DE,193-940-1905,Y1083,GIQ23,86397
+1387,Active,Employee,EMP1387,Mireielle,Philoo,Mireielle Philoo,HE/HIM,1419,12-01-2021,,Sales,CC9022,Asia Pacific,Program Manager,,Mumbai,US,150-150-1586,C1084,GIQ23,27343
+1666,Active,Employee,EMP1666,Lelah,Ummersen,Lelah Ummersen,SHE/HER,1103,2020-10-01,,Sales,CC5081,Middle East,Sales Executive,,San Francisco,IN,193-940-1905,P2301,GIQ23,24782
+1579,Inactive,Employee,EMP1579,Lilith,Hathaway,Lilith Hathaway,HE/HIM,1464,2018-08-21,,Sales,CC5081,North America,Project Manager,404 Legacy Dr,San Francisco,FR,150-150-1586,C1084,GUD01,43346
+1941,Active,Employee,EMP1941,Adele,Zetta,Adele Zetta,SHE/HER,1458,2011-11-26,,Manufacturing,CC4830,Asia Pacific,Customer Service Representative,,Munich,IN,451-190-0893,Y1083,ALK34,54043
+1281,Active,Contractor,EMP1281,Margarette,Valerio,Margarette Valerio,THEY/THEM,1869,2016-10-01,,Electronics,CC7018,North America,Engineering Manager,404 Legacy Dr,Frankfurt,UK,451-190-0893,Y1083,,36169
+1571,Inactive,Intern,EMP1571,Lorie,Poll,Lorie Poll,THEY/THEM,1752,2011-06-19,,Human Resources,CC3035,Europe,Engineering Manager,698 Menlo Rd,San Francisco,DE,150-150-1586,Y1083,BTK39,65397
+1319,Active,Contractor,EMP1319,Dominga,Soneson,Dominga Soneson,HE/HIM,1706,2020-01-10,,Manufacturing,CC3035,North America,Program Manager,303 Mansion Ct,San Francisco,UK,789-093-2560,C1084,,35898
+1597,Active,Intern,EMP1597,Elie,Iphlgenia,Elie Iphlgenia,SHE/HER,1669,2018-01-07,,Product Marketing,CC4830,Europe,Software Developer,303 Mansion Ct,San Francisco,UK,937-903-9108,C1084,GIQ23,27817
+1630,inactive,Employee,EMP1630,Cecile,Lail,Cecile Lail,HE/HIM,1947,2017-08-20,2024-09-30,Manufacturing,CC1005,Europe,Accountant,,Chicago,DE,259-915-1098,C1084,ALK34,17154

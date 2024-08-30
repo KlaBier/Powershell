@@ -35,7 +35,8 @@
             value = 'ManagerID'
         }
     }
-    "urn:ietf:params:scim:schemas:extension:csv:2.0:User" = @{	
+    "urn:ietf:params:scim:schemas:extension:kbcorp2021:1.0:User" = @{	
+        othermails  = 'Custom01'
         HireDate = 'HireDate'
     }
 }
