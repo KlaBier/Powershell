@@ -37,6 +37,7 @@
     }
     "urn:ietf:params:scim:schemas:extension:kbcorp2021:2.0:User" = @{	
         HireDate = 'HireDate'
+        LeaverDate = 'LeaverDate'
         Custom01 = 'Custom01'
     }
 }
