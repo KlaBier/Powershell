@@ -9,7 +9,6 @@ $UserCSV = '.\SCIMAPIDemo\UserList.csv'
 ### STEP 1: Load Attribute Mapping Definitions for each Data Source
 $KBAccountAttributeMapping = Import-PowerShellDataFile '.\SCIMAPIDemo\AttributeMapping.psd1'
 
-
 ##############################################################################################
 ### STEP 2: Test SCIM Bulk Payload Generation
 .\CSV2SCIM\src\CSV2SCIM.ps1 -Path $UserCSV `
@@ -44,7 +43,6 @@ Get-MgUser -ConsistencyLevel eventual -Count userCount `
   -OrderBy UserPrincipalName `
   -Select "id,displayName,mail,userPrincipalName,employeeHireDate" | 
 Format-List ID, DisplayName, Mail, UserPrincipalName, employeeHireDate
-
 
 ## Lösche Testbenutzer im Tenant
 $upnPrefix = "EMP"

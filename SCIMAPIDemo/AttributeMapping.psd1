@@ -9,7 +9,7 @@
     displayName  = 'FullName'
     nickName     = 'UserID'
     userType     = 'WorkerType'
-    title        = 'JobTitle'
+    title        = 'Worktitle'
     addresses    = @(
         @{
             type          = { 'work' }
@@ -30,7 +30,7 @@
         costCenter     = 'CostCenter'
         organization   = 'Company'
         division       = 'Division'
-        department     = 'Custom02'
+        department     = 'Custom01'
         manager        = @{
             value = 'ManagerID'
         }
@@ -38,6 +38,7 @@
     "urn:ietf:params:scim:schemas:extension:kbcorp2021:2.0:User" = @{	
         HireDate = 'HireDate'
         LeaverDate = 'LeaverDate'
+        mail = 'email'
         Custom01 = 'Custom01'
     }
 }
