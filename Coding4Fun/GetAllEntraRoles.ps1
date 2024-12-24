@@ -13,3 +13,4 @@ $roles = Get-MgRoleManagementDirectoryRoleDefinition
 
 # ... and write it to excel
 $roles | select-object -property DisplayName, Description | Export-Excel .\Coding4Fun\roles2.xlsx -WorksheetName "Roles" -AutoSize
+
