@@ -1,4 +1,6 @@
 ﻿
+# Cmdlets belows are an example to get secret information (expire date) from al apps in a tenant
+
 connect-azuread
 
 $ExportPath = ".\AAD_Secret_Infos"
