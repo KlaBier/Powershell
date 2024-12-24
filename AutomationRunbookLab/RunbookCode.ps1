@@ -6,7 +6,7 @@ $StorageKey = Get-AutomationVariable -Name 'storagekey'
 
 
 # Get the certificate which is stored in automation
-$certificateName = "automationcert"
+$certificateName = "automationcert" 
 $certificate = Get-AutomationCertificate -Name $certificateName
 
 Connect-MgGraph -clientId $ClientId -tenantId $TenantId -certificatethumbprint $certificate.Thumbprint
