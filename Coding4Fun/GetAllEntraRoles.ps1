@@ -1,15 +1,15 @@
 
-# Modul und Verbindung vorbereiten
+# get Graph ready
 Import-Module Microsoft.Graph
 
-# ... gleiche Liste, aber Ausgabe diesmal direkt in eine Excel Tabelle mit den Excel Powershell Module von Doug Finke
+# ... use Excel stuff from Doug Finke
 Install-Module -Name ImportExcel
 
-# Anmeldung bei Microsoft Graph
+# Login
 Connect-MgGraph -Scopes "RoleManagement.Read.All"
 
-# Alle Rollen abrufen
+# Get all roles
 $roles = Get-MgRoleManagementDirectoryRoleDefinition
 
-# Rollen ausgeben
+# ... and write it to excel
 $roles | select-object -property DisplayName, Description | Export-Excel .\Coding4Fun\roles2.xlsx -WorksheetName "Roles" -AutoSize
