@@ -39,6 +39,8 @@ $KBAccountAttributeMapping = Import-PowerShellDataFile '.\SCIMAPIDemo\AttributeM
 ##############################################################################################
 ## Diverses
 
+Connect-MgGraph
+
 ## Ermittle bestimmte Benutzer
 Get-MgUser -ConsistencyLevel eventual -Count userCount `
   -Filter "startsWith(DisplayName, 'Cecil')" `

@@ -163,7 +163,7 @@ function Test-ScimAttributeMapping {
                     $result = $result -and $nestedResult
                 }
                 else {
-                    Write-Warning ('SCIM Schema Namespace [{0}] was not be validated because no schema representation has been defined.' -f $_PropertyMapping.Key)
+#                    Write-Warning ('SCIM Schema Namespace [{0}] was not be validated because no schema representation has been defined.' -f $_PropertyMapping.Key)
                 }
             }
             elseif ($ScimSchemas.ContainsKey($ScimSchemaNamespace)) {

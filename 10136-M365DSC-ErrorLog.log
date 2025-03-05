@@ -1,0 +1,30 @@
+[2025/03/04 03:57:53]
+{InvalidOperation}
+System.Exception: [Request_ResourceNotFound] : Resource 'f898c391-ea59-4a8e-98ed-bf559fd61735' does not exist or one of its queried reference-property objects are not present.
+"Couldn't find IncludedUser 'f898c391-ea59-4a8e-98ed-bf559fd61735', that is defined in policy 'CA001-Global-BaseProtection-AllApps-AnyPlatform-BlockNonPersonas'. Skipping user."
+at Get-MgUser<Process>, C:\Program Files\WindowsPowerShell\Modules\Microsoft.Graph.Users\2.26.1\exports\ProxyCmdletDefinitions.ps1: line 23080
+at Get-TargetResource, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\DSCResources\MSFT_AADConditionalAccessPolicy\MSFT_AADConditionalAccessPolicy.psm1: line 349
+at Export-TargetResource, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\DSCResources\MSFT_AADConditionalAccessPolicy\MSFT_AADConditionalAccessPolicy.psm1: line 2367
+at Start-M365DSCConfigurationExtract, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\Modules\M365DSCReverse.psm1: line 689
+at Export-M365DSCConfiguration, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\Modules\M365DSCUtil.psm1: line 1512
+at <ScriptBlock>, <No file>: line 1
+dscuser@kbcorp2021.onmicrosoft.com
+TenantId: kbcorp2021.onmicrosoft.com
+
+
+
+[2025/03/04 03:57:54]
+{InvalidOperation}
+System.Exception: [Request_ResourceNotFound] : Resource 'f898c391-ea59-4a8e-98ed-bf559fd61735' does not exist or one of its queried reference-property objects are not present.
+"Couldn't find IncludedUser 'f898c391-ea59-4a8e-98ed-bf559fd61735', that is defined in policy 'CA400-GuestUser-BaseProtection-AlllApps-AnyPlatform'. Skipping user."
+at Get-MgUser<Process>, C:\Program Files\WindowsPowerShell\Modules\Microsoft.Graph.Users\2.26.1\exports\ProxyCmdletDefinitions.ps1: line 23080
+at Get-TargetResource, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\DSCResources\MSFT_AADConditionalAccessPolicy\MSFT_AADConditionalAccessPolicy.psm1: line 349
+at Export-TargetResource, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\DSCResources\MSFT_AADConditionalAccessPolicy\MSFT_AADConditionalAccessPolicy.psm1: line 2367
+at Start-M365DSCConfigurationExtract, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\Modules\M365DSCReverse.psm1: line 689
+at Export-M365DSCConfiguration, C:\Users\klaus\Documents\PowerShell\Modules\Microsoft365DSC\1.25.226.1\Modules\M365DSCUtil.psm1: line 1512
+at <ScriptBlock>, <No file>: line 1
+dscuser@kbcorp2021.onmicrosoft.com
+TenantId: kbcorp2021.onmicrosoft.com
+
+
+
