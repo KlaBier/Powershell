@@ -13,7 +13,7 @@ if (-not $commits) {
     exit
 }
 
-git worktree remove "$restoreTarget" --force
+git worktree remove $restoreTarget --force
 
 Write-Host "`n Available Commits:"
 $commitList = $commits -split "`n" | ForEach-Object { $_.Trim() }
