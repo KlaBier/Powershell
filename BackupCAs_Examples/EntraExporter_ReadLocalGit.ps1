@@ -15,11 +15,6 @@ if (-not $commits) {
     exit
 }
 
-# Clean destination
-#if (Test-Path $restoreTarget) {
-#    Remove-Item -Path $restoreTarget -Recurse -Force
-#}
-
 git worktree remove "$restoreTarget" --force
 
 Write-Host "`n Available Commits:"
