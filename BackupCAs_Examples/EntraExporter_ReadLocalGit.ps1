@@ -5,8 +5,6 @@
 $repoFolder = "C:\Git\Entra-Config"
 $restoreTarget = "C:\Temp\RestoredEntraVersion"
 
-#Set-Location $repoFolder
-
 # read all Commits
 $commits = git log --oneline
 
@@ -35,7 +33,7 @@ $selectedCommit = $commitList[$selection].Split(" ")[0]
 Write-Host "`n Recovering Commit $selectedCommit..."
 
 # create temporary Restore-Tree
-git worktree add "$restoreTarget" $selectedCommit
+git worktree add $restoreTarget $selectedCommit
 
 Write-Host "`n Recovering done"
 Write-Host "Files are stored at: $restoreTarget"
