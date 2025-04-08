@@ -3,7 +3,7 @@
 Write-Host 'Starting backup...'
 
 # === Konfiguration ===
-$baseFolder = "C:\Backups\CA-Policies"
+$baseFolder = "C:\CA-Backups"
 
 # === Timestamp for Foldername
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
@@ -31,4 +31,6 @@ foreach ($Policy in $AllPolicies) {
         # Print a success message for the policy backup
         Write-Host "Successfully backed up CA policy: $($PolicyName)" -ForegroundColor Green
     }
+
+Write-host "`nFiles stored in" $($BackupFolder) "`n" -ForegroundColor Green
 
