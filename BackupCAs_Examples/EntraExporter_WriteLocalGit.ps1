@@ -9,6 +9,9 @@ $repoFolder     = "C:\Git\Entra-Config"
 $exportFolder   = "$repoFolder\exports\entra"
 $commitMessage  = "Automatisierter Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 
+# If not already done
+#Install-Module EntraExporter
+
 # === Ensure that the Git repository is initialized ===
 if (-not (Test-Path "$repoFolder\.git")) {
     Write-Host "Initialize Git-Repository..."
