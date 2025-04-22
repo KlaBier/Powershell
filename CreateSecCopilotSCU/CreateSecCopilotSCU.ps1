@@ -1,10 +1,11 @@
-# Cmdlets below are mentioned in my blogpost xyz...
+# Cmdlets below are mentioned in my blogpost: 
+# "Security Copilot - quickly turned on and off"
+# https://nothingbutcloud.net/2025-01-16-SCU_ON_OFF/
 
-# if not already done ...
+# The module needs to be imported beforehand ...
+
 #Install-Module -Name Az -Scope CurrentUser
 #Import-Module Az
-
-#update-Module -Name Az 
 
 Connect-AzAccount -Tenant 'YOUR TENANT ID' -SubscriptionId 'YOUR SUBSCRIPTION ID'
 

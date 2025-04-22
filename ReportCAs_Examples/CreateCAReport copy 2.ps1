@@ -1,12 +1,12 @@
 Connect-MgGraph -Scopes "Policy.Read.All", "Directory.Read.All", "Application.Read.All"
 
-# Daten laden
+# Lookup-Daten
 $allUsers = Get-MgUser -All
 $allGroups = Get-MgGroup -All
 $allRoles = Get-MgDirectoryRoleTemplate -All
 $allApps = Get-MgServicePrincipal -All
 
-# Lookup-Maps
+# Maps
 $userMap = @{}
 $groupMap = @{}
 $roleMap = @{}
@@ -29,8 +29,8 @@ function Resolve-AppId($id) {
     else { return "[App-ID] $id" }
 }
 
-# Policies analysieren
-$report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
+# Report erstellen
+Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
     $p = $_
 
     # Identities
@@ -45,32 +45,22 @@ $report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
     $appsExcluded = $p.Conditions.Applications.ExcludeApplications | ForEach-Object { Resolve-AppId $_ }
     $userActions  = $p.Conditions.Applications.IncludeUserActions -join ", "
 
-    # Risk Levels
+    # Risk
     $signInRisk = @()
-    if ($p.Conditions.SignInRiskLevels) {
-        $signInRisk += "Include: " + ($p.Conditions.SignInRiskLevels -join ", ")
-    }
-    if ($p.Conditions.ExcludeSignInRiskLevels) {
-        $signInRisk += "Exclude: " + ($p.Conditions.ExcludeSignInRiskLevels -join ", ")
-    }
+    if ($p.Conditions.SignInRiskLevels) { $signInRisk += "Include: " + ($p.Conditions.SignInRiskLevels -join ", ") }
+    if ($p.Conditions.ExcludeSignInRiskLevels) { $signInRisk += "Exclude: " + ($p.Conditions.ExcludeSignInRiskLevels -join ", ") }
 
-    $userRisk = @()
-    if ($p.Conditions.UserRiskLevels) {
-        $userRisk += "Include: " + ($p.Conditions.UserRiskLevels -join ", ")
-    }
-    if ($p.Conditions.ExcludeUserRiskLevels) {
-        $userRisk += "Exclude: " + ($p.Conditions.ExcludeUserRiskLevels -join ", ")
-    }
-
-    # Device Conditions
+    # Device Platforms
     $platforms = @()
     if ($p.Conditions.Platforms.IncludePlatforms) { $platforms += "Include: " + ($p.Conditions.Platforms.IncludePlatforms -join ", ") }
     if ($p.Conditions.Platforms.ExcludePlatforms) { $platforms += "Exclude: " + ($p.Conditions.Platforms.ExcludePlatforms -join ", ") }
 
+    # Device States
     $deviceStates = @()
     if ($p.Conditions.DeviceStates.IncludeStates) { $deviceStates += "Include: " + ($p.Conditions.DeviceStates.IncludeStates -join ", ") }
     if ($p.Conditions.DeviceStates.ExcludeStates) { $deviceStates += "Exclude: " + ($p.Conditions.DeviceStates.ExcludeStates -join ", ") }
 
+    # Locations
     $locations = @()
     if ($p.Conditions.Locations.IncludeLocations) { $locations += "Include: " + ($p.Conditions.Locations.IncludeLocations -join ", ") }
     if ($p.Conditions.Locations.ExcludeLocations) { $locations += "Exclude: " + ($p.Conditions.Locations.ExcludeLocations -join ", ") }
@@ -78,6 +68,7 @@ $report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
     # Grant Controls
     $grantControls = @()
     if ($p.GrantControls.BuiltInControls) { $grantControls += $p.GrantControls.BuiltInControls }
+    if ($p.GrantControls.CustomAuthenticationFactors) { $grantControls += "[Custom]" }
     if ($p.GrantControls.TermsOfUse) { $grantControls += "[ToU]" }
     if ($p.GrantControls.Operators) { $grantControls += "Operator: " + ($p.GrantControls.Operators -join ", ") }
 
@@ -89,7 +80,6 @@ $report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
         $sessionControls += "Sign-in Frequency: $($p.SessionControls.SignInFrequencyValue) $($p.SessionControls.SignInFrequencyType)"
     }
 
-    # Ergebnisobjekt
     [PSCustomObject]@{
         PolicyName               = $p.DisplayName
         State                    = $p.State
@@ -102,7 +92,6 @@ $report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
         User_Actions             = $userActions
 
         SignIn_Risk_Levels       = $signInRisk -join " | "
-        User_Risk_Levels         = $userRisk -join " | "
         Device_Platforms         = $platforms -join " | "
         Device_States            = $deviceStates -join " | "
         Named_Locations          = $locations -join " | "
@@ -110,7 +99,4 @@ $report = Get-MgIdentityConditionalAccessPolicy | ForEach-Object {
         Grant_Controls           = $grantControls -join ", "
         Session_Controls         = $sessionControls -join " | "
     }
-}
-
-# Excel-Export
-$report | Export-Excel .\CA-Policy-Report-Final.xlsx -WorksheetName "Policies" -AutoSize
+} | Export-Excel .\CA-Policy-Report-Final.xlsx -WorksheetName "Policies" -AutoSize
