@@ -7,7 +7,7 @@
 # Initialise
 $repoFolder     = "C:\Git\Entra-Config"
 $exportFolder   = "$repoFolder\exports\entra"
-$commitMessage  = "Automatisierter Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
+$commitMessage  = "Automated Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 
 # If not already done
 #Install-Module EntraExporter
@@ -24,7 +24,7 @@ if (-not (Test-Path "$repoFolder\.git")) {
 Set-Location $repoFolder
 
 # EntraExporter Stuff
-Write-Host "Starte EntraExporter..."
+Write-Host "Starting EntraExporter..."
 Connect-EntraExporter
 Export-Entra -Path "$exportFolder" -Type ConditionalAccess
 
