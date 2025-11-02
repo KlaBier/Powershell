@@ -1,6 +1,6 @@
 
 # KBRUN Tenant Parameter
-# Hier die Parameter aus eigenen Tenant eintragen
+# Hier die Parameter aus dem eigenen Tenant eintragen
 # Script schrittweise ausführen, wie in den Screencasts gezeigt
 $Tenant = 'f5c07476-f2f0-45bf-8745-34a90b6a2a1d'
 $ServicePrincipal = '5313c5fc-4e46-4d5a-b9ed-1c2065e1093b'
