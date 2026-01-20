@@ -14,7 +14,7 @@ New-AzResourceGroup -Name "SecurityCopilotRG" -Location "WestEurope"
 #This is a one time job
 #Register-AzResourceProvider -ProviderNamespace "Microsoft.Security"
 
-New-AzResource -ResourceName "SecurityCopilotSKU" `
+New-AzResource -ResourceName "SecurityCopilotSCU" `
     -ResourceType "Microsoft.SecurityCopilot/capacities" `
     -ResourceGroupName "SecurityCopilotRG" `
     -Location "westeurope" `
