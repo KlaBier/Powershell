@@ -10,7 +10,7 @@ $exportFolder   = "$repoFolder\exports\entra"
 $commitMessage  = "Automated Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 
 # If not already done
-#Install-Module EntraExporter
+Install-Moadule EntraExporter
 
 # === Ensure that the Git repository is initialized ===
 if (-not (Test-Path "$repoFolder\.git")) {
@@ -45,3 +45,19 @@ if ($changes) {
 } else {
     Write-Host "No changes - export skipped" -ForegroundColor green
 }
+
+
+
+$scopes = @(
+    "Directory.Read.All",
+    "Policy.Read.All",
+    "AuditLog.Read.All",
+    "PrivilegedEligibilitySchedule.Read.AzureADGroup",
+    "PrivilegedAccess.Read.AzureADGroup",
+    "RoleManagementPolicy.Read.AzureADGroup"
+)
+
+Connect-MgGraph -Scopes $scopes
+Select-MgProfile -Name beta   # falls du sowieso mit beta arbeitest
+
+export-entra -path C:\fullbackupV3 -type PIMResources, PIMGroups
