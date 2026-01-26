@@ -1,63 +1,47 @@
-# The following script backs up all Conditional Access Policies into a local Git repository
-# and adds a timestamp to the commit message.
+# The following script backs up all Conditional Access policies into a local Git repository
+# and adds a timestamp to each commit.
 #
-# It demonstrates how to quickly and simply create a versioned backup of file contents,
-# in this case the dump from EntraExporter, stored locally as a backup.
+# It demonstrates a simple way to create a versioned, local backup of Entra configuration
+# data by storing EntraExporter output under Git version control.
 
-# Initialise
-$repoFolder     = "C:\Git\Entra-Config"
-$exportFolder   = "$repoFolder\exports\entra"
-$commitMessage  = "Automated Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 
-# If not already done
-Install-Moadule EntraExporter
+# Local Git repository that stores the EntraExporter output
+$repoFolder    = "C:\Git\Entra-Config"
+$exportFolder  = "$repoFolder\exports\entra"
+$commitMessage = "Automated Entra Config Export $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
 
-# === Ensure that the Git repository is initialized ===
+# If the folder is not yet a Git repository, initialize it
 if (-not (Test-Path "$repoFolder\.git")) {
-    Write-Host "Initialize Git-Repository..."
+    Write-Host "Initializing local Git repository..."
     git init $repoFolder
-} else {
-    Write-Host "Git-Repository exists..."
 }
 
-# Switch to local Git Folder
+# Work inside the Git repository
 Set-Location $repoFolder
 
-# EntraExporter Stuff
+# Run EntraExporter and export Conditional Access policies
 Write-Host "Starting EntraExporter..."
 Connect-EntraExporter
-Export-Entra -Path "$exportFolder" -Type ConditionalAccess
+Export-Entra -Path $exportFolder -Type ConditionalAccess
+# Export-Entra -Path $exportFolder -All   # optional full export
+# or
+# Export-Entra -Path C:\temp2\ -Type "Users", "PIM"
 
-# Alternative option to back up all settings, not just Conditional Access policies
-#Export-Entra -Path $exportFolder -All
-
-# Check Git Changes
-Write-Host "Check for changes in the Git repository..."
+# Stage all changes (new or modified files)
 git add .
 
+# Check if the export resulted in any changes
 $changes = git status --porcelain
+
+# If changes exist, create a commit with a timestamp
 if ($changes) {
-    Write-Host "Modifications detected. Performing commit..."
+    Write-Host "Changes detected. Creating commit..."
     git commit -m "$commitMessage"
 
-    # Optional: Push (for Remote)
+    # Optional: push to a remote repository
     # git push origin main
-} else {
-    Write-Host "No changes - export skipped" -ForegroundColor green
 }
-
-
-
-$scopes = @(
-    "Directory.Read.All",
-    "Policy.Read.All",
-    "AuditLog.Read.All",
-    "PrivilegedEligibilitySchedule.Read.AzureADGroup",
-    "PrivilegedAccess.Read.AzureADGroup",
-    "RoleManagementPolicy.Read.AzureADGroup"
-)
-
-Connect-MgGraph -Scopes $scopes
-Select-MgProfile -Name beta   # falls du sowieso mit beta arbeitest
-
-export-entra -path C:\fullbackupV3 -type PIMResources, PIMGroups
+# If nothing changed, skip the commit
+else {
+    Write-Host "No changes detected - nothing to commit." -ForegroundColor Green
+}

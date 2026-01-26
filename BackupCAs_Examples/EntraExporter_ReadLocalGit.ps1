@@ -2,7 +2,7 @@
 # It reads from the Git repo and offers all available versions for import
 
 # Init
-$repoFolder = "C:\Git\Entra-Config"
+$repoFolder = "C:\Git98\Entra-Config"
 $restoreTarget = "C:\Temp\RestoredEntraVersion"
 
 # read all Commits
