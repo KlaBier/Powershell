@@ -24,6 +24,8 @@ Write-Host "Starting EntraExporter..."
 Connect-EntraExporter
 Export-Entra -Path $exportFolder -Type ConditionalAccess
 # Export-Entra -Path $exportFolder -All   # optional full export
+# or
+# Export-Entra -Path C:\temp2\ -Type "Users", "PIM"
 
 # Stage all changes (new or modified files)
 git add .

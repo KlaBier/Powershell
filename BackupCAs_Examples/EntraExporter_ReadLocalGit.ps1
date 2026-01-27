@@ -1,42 +1,58 @@
-# This script is the counterpart to creating a dump into a local Git repository
-# It reads from the Git repo and offers all available versions for import
+# The following script is the counterpart to the CA backup script, which stores
+# timestamp-based backups in a local Git repository.
+#
+# It demonstrates how to read from a locally versioned Git repository and restore
+# a selected export into a separate folder. From there, individual Conditional Access
+# policies can be imported via the Conditional Access dashboard.
 
-# Init
-$repoFolder = "C:\Git98\Entra-Config"
+# Configuration: Git repository and restore target
+$repoFolder    = "C:\Git\Entra-Config"
 $restoreTarget = "C:\Temp\RestoredEntraVersion"
 
-# read all Commits
-$commits = git log --oneline
+# Switch to the local Git repository
+Set-Location $repoFolder
 
-if (-not $commits) {
+# Read commit history and ensure it is always handled as an array
+$commitText = (git log --oneline | Out-String).Trim()
+if (-not $commitText) {
     Write-Host "Nothing found. Canceled" -ForegroundColor Red
-    exit
+    exit 1
 }
 
-git worktree remove $restoreTarget --force
+$commitList = @(
+    $commitText -split "`r?`n" |
+    ForEach-Object { $_.Trim() } |
+    Where-Object { $_ }
+)
 
-Write-Host "`n Available Commits:"
-$commitList = $commits -split "`n" | ForEach-Object { $_.Trim() }
+# Clean up any existing restore worktree
+git worktree remove "$restoreTarget" --force 2>$null | Out-Null
+if (Test-Path $restoreTarget) {
+    Remove-Item -Recurse -Force $restoreTarget
+}
 
+# Display available commits and prompt for selection
+Write-Host "`nAvailable commits:"
 for ($i = 0; $i -lt $commitList.Count; $i++) {
     Write-Host "[$i] $($commitList[$i])"
 }
 
-# Get selection from user
-[int]$selection = Read-Host "`n Please enter number of the Commit you wish to restore"
+[int]$selection = Read-Host "`nPlease enter number of the commit you wish to restore"
 if ($selection -lt 0 -or $selection -ge $commitList.Count) {
     Write-Host "Invalid, canceled" -ForegroundColor Red
-    exit
+    exit 1
 }
 
-$selectedCommit = $commitList[$selection].Split(" ")[0]
-Write-Host "`n Recovering Commit $selectedCommit..."
+# Extract commit hash and restore selected version via Git worktree
+$selectedCommit = ($commitList[$selection] -split '\s+')[0]
+Write-Host "`nRestoring commit $selectedCommit..."
 
-# create temporary Restore-Tree
-git worktree add $restoreTarget $selectedCommit
+git worktree add "$restoreTarget" $selectedCommit
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Restore failed." -ForegroundColor Red
+    exit 1
+}
 
-Write-Host "`n Recovering done"
-Write-Host "Files are stored at: $restoreTarget"
-Write-Host "`n You can remove them later with the following command:"
-Write-Host "   git worktree remove `"$restoreTarget`""
-
+# Final output and cleanup hint
+Write-Host "`nRestore done: $restoreTarget"
+Write-Host "Remove later: git worktree remove `"$restoreTarget`""
