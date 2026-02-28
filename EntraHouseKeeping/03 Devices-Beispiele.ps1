@@ -1,6 +1,6 @@
 # Einige Beispiele wie sich über die Microsoft Graph Geräte Informationen auslesen lassen
 # 
-# Zur Veranschaulichung die Cmdlets einzeln markieren und ausführen
+# Zur Veranschaulichung die Cmdlets einzeln markieren und ausführen.
 #
 # Für Ausgabe der Benutzer in Excel wird das Modul "ImportExcel" von Doug Finke benutzt  
 

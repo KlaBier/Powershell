@@ -5,7 +5,7 @@
 #
 # Für Ausgabe der Benutzer in Excel wird das Modul "ImportExcel" von Doug Finke benutzt  
 
-# Installiere Powershell Module, wenn noch nicht geschehen
+# Installiere Powershell Module, wenn noch nicht geschehen.
 #Install-Module -name ImportExcel
 #Install-Module -name microsoft.graph
 
